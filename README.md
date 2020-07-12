@@ -10,4 +10,5 @@ e a aplicação calucla a quantidade de produtos e o preço total.
 
 * React Native 
 
+![Tela da lista](https://cdn.discordapp.com/attachments/399555129826738189/731962024593981470/Screenshot_20200712-165545.png)
 ![Tela do carrinho](https://cdn.discordapp.com/attachments/399555129826738189/731960553030811678/Screenshot_20200712-164945.png)
