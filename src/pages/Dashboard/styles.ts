@@ -63,3 +63,14 @@ export const ProductPrice = styled.Text`
 `;
 
 export const ProductButton = styled.TouchableOpacity``;
+
+export const SearchBar = styled.TextInput`
+  margin-top: 80px;
+  margin-bottom: -30px;
+  padding: 16px;
+  height: 48px;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 90%;
+
+`

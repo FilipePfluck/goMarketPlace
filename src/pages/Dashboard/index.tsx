@@ -19,6 +19,7 @@ import {
   PriceContainer,
   ProductPrice,
   ProductButton,
+  SearchBar
 } from './styles';
 
 interface Product {
@@ -32,16 +33,51 @@ const Dashboard: React.FC = () => {
   const { addToCart } = useCart();
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+
+  const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
     async function loadProducts(): Promise<void> {
       const response = await api.get('/products')
 
       setProducts(response.data)
+      setFilteredProducts(response.data)
     }
 
     loadProducts();
   }, []);
+
+  useEffect(()=>{
+    let filteredArray = [...products]
+
+    if(searchValue){
+      filteredArray = filteredArray.filter(product => {
+        const splittedName = product.title.toLowerCase().split('')
+        const splittedSearch = searchValue.toLowerCase().split('')
+        
+        const splittedNameContainsSplittedSearch = splittedSearch.every((element, index, array) => {
+
+          if(index === 0){
+            return splittedName.indexOf(splittedSearch[index]) >= 0
+          }else{
+            return splittedSearch.every((element, index, array)=> {
+              console.log(element)
+
+              return splittedName.includes(element)
+            })
+          }
+
+        })
+
+        if(splittedNameContainsSplittedSearch){
+          return product
+        }
+      })
+    }
+
+    setFilteredProducts(filteredArray)
+  },[searchValue])
 
   function handleAddToCart(item: Product): void {
     addToCart(item)
@@ -49,9 +85,14 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container>
+      <SearchBar 
+        placeholder="Pesquise um produto"
+        value={searchValue}
+        onChangeText={setSearchValue}
+      />
       <ProductContainer>
         <ProductList
-          data={products}
+          data={filteredProducts}
           keyExtractor={item => item.id}
           ListFooterComponent={<View />}
           ListFooterComponentStyle={{
